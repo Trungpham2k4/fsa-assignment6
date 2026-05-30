@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DdlMappings">
+    <mapping uuid="0000e36d-f8fb-4f3d-91fb-330ab27aa048" name="sms@localhost Mapping">
+      <data-sources db="87234989-96c7-4823-a14a-471c03e2f8a3" ddl="8087105e-5948-47a6-8a58-6e66c8c5e24e" />
+      <scope>
+        <node kind="database" qname="@">
+          <node kind="schema" qname="@" />
+        </node>
+      </scope>
+    </mapping>
+  </component>
+  <component name="SqlDataSourceStorage">
+    <option name="dataSources">
+      <list>
+        <State>
+          <option name="id" value="8087105e-5948-47a6-8a58-6e66c8c5e24e" />
+          <option name="name" value="sms@localhost (DDL)" />
+          <option name="dbmsName" value="POSTGRES" />
+          <option name="urls">
+            <array>
+              <option value="file://$PROJECT_DIR$/src/main/resources/create_table.sql" />
+            </array>
+          </option>
+          <option name="outLayout" value="File per object by schema.groovy" />
+        </State>
+      </list>
+    </option>
+  </component>
+</project>
