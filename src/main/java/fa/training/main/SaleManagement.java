@@ -1,9 +1,7 @@
 package fa.training.main;
 
 import fa.training.common.Validator;
-import fa.training.entities.Customer;
-import fa.training.entities.LineItem;
-import fa.training.entities.Order;
+import fa.training.entities.*;
 import fa.training.service.*;
 
 import java.time.LocalDate;
@@ -23,21 +21,71 @@ public class SaleManagement {
     private static final OrderService orderService = new OrderService();
     private static final ProductService productService = new ProductService();
 
+
+    public static void showCustomerMenu(){
+        String menu = """
+                ===== Customer Menu =====
+                Choose one of the following options:
+                1. Add a customer
+                2. Update a customer
+                3. Delete a customer
+                4. Show all customers
+                """;
+        System.out.print(menu);
+    }
+    public static void showEmployeeMenu(){
+        String menu = """
+                ===== Employee Menu =====
+                Choose one of the following options:
+                1. Add an employee
+                2. Show all employees
+                3. Update an employee
+                4. Delete an employee
+                """;
+        System.out.print(menu);
+    }
+    public static void showLineItemMenu(){
+        String menu = """
+                ===== Line Item Menu =====
+                Choose one of the following options:
+                1. Add a line item
+                2. Show all line items by order id
+                """;
+        System.out.print(menu);
+    }
+    public static void showOrderMenu(){
+        String menu = """
+                ===== Order Menu =====
+                Choose one of the following options:
+                1. Create an order
+                2. Show all orders by customer id
+                3. Compute order total
+                4. Update order total
+                """;
+        System.out.print(menu);
+    }
+    public static void showProductMenu(){
+        String menu = """
+                ===== Product Menu =====
+                Choose one of the following options:
+                1. Add a product
+                2. Show all products
+                3. Update a product
+                4. Delete a product
+                """;
+        System.out.print(menu);
+    }
+
     public static void showMenu(){
         String menu = """
                 ===== Sales Management System =====
                 Choose one of the following options:
                 0. Exit
-                1. List all customers
-                2. List all orders by customer id
-                3. List all line items by order id
-                4. Compute order total
-                5. Add a customer
-                6. Delete a customer
-                7. Update a customer
-                8. Create an order
-                9. Create a line item
-                10. Update an order total
+                1. Customer
+                2. Employee
+                3. Line Item
+                4. Order
+                5. Product
                 """;
         System.out.print(menu);
     }
@@ -51,54 +99,68 @@ public class SaleManagement {
         do{
             showMenu();
             System.out.print("Enter choice: ");
-            choice = inputValidOption(0, 10);
+            choice = inputValidOption(0, 5);
             switch (choice){
-                case 1 -> displayAllCustomers();
-                case 2 -> displayAllOrdersByCustomerId();
-                case 3 -> displayAllLineItemsByOrderId();
-                case 4 -> computeOrderTotal();
-                case 5 -> createCustomer();
-                case 6 -> deleteCustomer();
-                case 7 -> updateCustomer();
-                case 8 -> createOrder();
-                case 9 -> createLineItem();
-                case 10 -> updateOrderTotal();
+                case 1 -> handleCustomerMenu();
+                case 2 -> handleEmployeeMenu();
+                case 3 -> handleLineItemMenu();
+                case 4 -> handleOrderMenu();
+                case 5 -> handleProductMenu();
             }
         }while (choice != 0);
     }
 
-    private static void displayAllCustomers(){
-        delimiter();
-        System.out.println("Display all customers");
-        delimiter();
-        List<Customer> customers = customerService.getAllCustomers();
-        customers.forEach(System.out::println);
+    public static void handleCustomerMenu(){
+        showCustomerMenu();
+        int choice = inputValidOption(1,4);
+        switch (choice){
+            case 1 -> createCustomer();
+            case 2 -> updateCustomer();
+            case 3 -> deleteCustomer();
+            case 4 -> displayAllCustomers();
+        }
     }
 
-    private static void displayAllOrdersByCustomerId(){
-        delimiter();
-        System.out.println("Display all orders");
-        delimiter();
-        int customerId = inputValidIntField("Enter customer id: ", "Customer id must be a positive integer", Validator::isValidPositiveNumber);
-        List<Order> orders = orderService.getAllOrdersByCustomerId(customerId);
-        orders.forEach(System.out::println);
+    public static void handleEmployeeMenu(){
+        showEmployeeMenu();
+        int choice = inputValidOption(1,4);
+        switch (choice){
+            case 1 -> addEmployee();
+            case 2 -> displayAllEmployees();
+            case 3 -> updateEmployee();
+            case 4 -> deleteEmployee();
+        }
     }
 
-    private static void displayAllLineItemsByOrderId(){
-        delimiter();
-        System.out.println("Display all line items");
-        delimiter();
-        int orderId = inputValidIntField("Enter order id: ", "Order id must be a positive integer", Validator::isValidPositiveNumber);
-        lineItemService.getAllItemsByOrderId(orderId).forEach(System.out::println);
+    public static void handleLineItemMenu(){
+        showLineItemMenu();
+        int choice = inputValidOption(1,2);
+        switch (choice){
+            case 1 -> createLineItem();
+            case 2 -> displayAllLineItemsByOrderId();
+        }
     }
 
-    private static void computeOrderTotal(){
-        delimiter();
-        System.out.println("Compute order total");
-        delimiter();
-        int orderId = inputValidIntField("Enter order id: ", "Order id must be a positive integer", Validator::isValidPositiveNumber);
-        double total = orderService.computeOrderTotal(orderId);
-        System.out.println("Total for order id " + orderId + " is: " + total);
+    public static void handleOrderMenu(){
+        showOrderMenu();
+        int choice = inputValidOption(1,4);
+        switch (choice){
+            case 1 -> createOrder();
+            case 2 -> displayAllOrdersByCustomerId();
+            case 3 -> computeOrderTotal();
+            case 4 -> updateOrderTotal();
+        }
+    }
+
+    public static void handleProductMenu(){
+        showProductMenu();
+        int choice = inputValidOption(1,4);
+        switch (choice){
+            case 1 -> createProduct();
+            case 2 -> displayAllProducts();
+            case 3 -> updateProduct();
+            case 4 -> deleteProduct();
+        }
     }
 
     private static void createCustomer() {
@@ -146,6 +208,99 @@ public class SaleManagement {
         }
     }
 
+    private static void displayAllCustomers(){
+        delimiter();
+        System.out.println("Display all customers");
+        delimiter();
+        List<Customer> customers = customerService.getAllCustomers();
+        customers.forEach(System.out::println);
+    }
+
+    private static void addEmployee(){
+        delimiter();
+        System.out.println("Add a new employee");
+        delimiter();
+        String employeeName = inputValidStringField("Enter employee name: ", "Employee name cannot be blank", Validator::isNotBlank);
+        double salary = inputValidDoubleField("Enter salary: ", "Salary must be a positive number", Validator::isValidPositiveNumber);
+        int sprvId = inputValidIntField("Enter supervisor id: ", "Supervisor id must be a positive integer", Validator::isValidPositiveNumber);
+        Employee employee = new Employee();
+        employee.setEmployeeName(employeeName);
+        employee.setSalary(salary);
+        employee.setSprvId(sprvId);
+        if(employeeService.addEmployee(employee)){
+            System.out.println("Employee " + employeeName + " added");
+        }else{
+            System.out.println("Employee " + employeeName + " could not be added");
+        }
+    }
+
+    private static void updateEmployee(){
+        delimiter();
+        System.out.println("Update a employee");
+        delimiter();
+        int employeeId = inputValidIntField("Enter employee id: ", "Employee id must be a positive integer", Validator::isValidPositiveNumber);
+        Employee existingEmployee = employeeService.getEmployee(employeeId);
+        if(existingEmployee == null) {
+            System.out.println("Employee with id " + employeeId + " not found");
+            return;
+        }
+        String employeeName = inputValidStringField("Enter employee name: ", "Employee name cannot be blank", Validator::isNotBlank);
+        double salary = inputValidDoubleField("Enter salary: ", "Salary must be a positive) number", Validator::isValidPositiveNumber);
+        int sprvId = inputValidIntField("Enter supervisor id: ", "Supervisor id must be a positive integer", Validator::isValidPositiveNumber);
+        existingEmployee.setEmployeeName(employeeName);
+        existingEmployee.setSalary(salary);
+        existingEmployee.setSprvId(sprvId);
+        if(employeeService.updateEmployee(existingEmployee)){
+            System.out.println("Employee " + employeeName + " updated");
+        }else {
+            System.out.println("Employee " + employeeName + " could not be updated");
+        }
+    }
+
+    private static void deleteEmployee(){
+        delimiter();
+        System.out.println("Delete a employee");
+        delimiter();
+        int employeeId = inputValidIntField("Enter employee id: ", "Employee id must be a positive integer", Validator::isValidPositiveNumber);
+        if(employeeService.deleteEmployee(employeeId)){
+            System.out.println("Employee with id " + employeeId + " deleted");
+        }else {
+            System.out.println("Employee with id " + employeeId + " could not be deleted");
+        }
+    }
+
+    private static void displayAllEmployees(){
+        delimiter();
+        System.out.println("Display all employees");
+        delimiter();
+        List<Employee> employees = employeeService.getAllEmployees();
+        employees.forEach(System.out::println);
+    }
+
+    private static void createLineItem(){
+        delimiter();
+        System.out.println("Create a new line item");
+        delimiter();
+        int orderId = inputValidIntField("Enter order id: ", "Order id must be a positive integer", Validator::isValidPositiveNumber);
+        int productId = inputValidIntField("Enter product id: ", "Product id must be a positive integer", Validator::isValidPositiveNumber);
+        int quantity = inputValidIntField("Enter quantity: ", "Quantity must be a positive integer", Validator::isValidPositiveNumber);
+        double price = inputValidDoubleField("Enter price: ", "Price must be a positive number", Validator::isValidPositiveNumber);
+        LineItem lineItem = new LineItem(orderId, productId, quantity, price);
+        if(lineItemService.addLineItem(lineItem)){
+            System.out.println("Line item created");
+        }else {
+            System.out.println("Line item could not be created");
+        }
+    }
+
+    private static void displayAllLineItemsByOrderId(){
+        delimiter();
+        System.out.println("Display all line items");
+        delimiter();
+        int orderId = inputValidIntField("Enter order id: ", "Order id must be a positive integer", Validator::isValidPositiveNumber);
+        lineItemService.getAllItemsByOrderId(orderId).forEach(System.out::println);
+    }
+
     private static void createOrder(){
         delimiter();
         System.out.println("Create a new order");
@@ -166,20 +321,22 @@ public class SaleManagement {
         }
     }
 
-    private static void createLineItem(){
+    private static void displayAllOrdersByCustomerId(){
         delimiter();
-        System.out.println("Create a new line item");
+        System.out.println("Display all orders");
+        delimiter();
+        int customerId = inputValidIntField("Enter customer id: ", "Customer id must be a positive integer", Validator::isValidPositiveNumber);
+        List<Order> orders = orderService.getAllOrdersByCustomerId(customerId);
+        orders.forEach(System.out::println);
+    }
+
+    private static void computeOrderTotal(){
+        delimiter();
+        System.out.println("Compute order total");
         delimiter();
         int orderId = inputValidIntField("Enter order id: ", "Order id must be a positive integer", Validator::isValidPositiveNumber);
-        int productId = inputValidIntField("Enter product id: ", "Product id must be a positive integer", Validator::isValidPositiveNumber);
-        int quantity = inputValidIntField("Enter quantity: ", "Quantity must be a positive integer", Validator::isValidPositiveNumber);
-        double price = inputValidDoubleField("Enter price: ", "Price must be a positive number", Validator::isValidPositiveNumber);
-        LineItem lineItem = new LineItem(orderId, productId, quantity, price);
-        if(lineItemService.addLineItem(lineItem)){
-            System.out.println("Line item created");
-        }else {
-            System.out.println("Line item could not be created");
-        }
+        double total = orderService.computeOrderTotal(orderId);
+        System.out.println("Total for order id " + orderId + " is: " + total);
     }
 
     private static void updateOrderTotal(){
@@ -192,6 +349,63 @@ public class SaleManagement {
             System.out.println("Order total updated to " + order.getTotal());
         }else {
             System.out.println("Order total could not be updated");
+        }
+    }
+
+    private static void createProduct(){
+        delimiter();
+        System.out.println("Create a new product");
+        delimiter();
+        String productName = inputValidStringField("Enter product name: ", "Product name cannot be blank", Validator::isNotBlank);
+        double listPrice = inputValidDoubleField("Enter list price: ", "List price must be a positive number", Validator::isValidPositiveNumber);
+        Product product = new Product();
+        product.setProductName(productName);
+        product.setListPrice(listPrice);
+        if(productService.addProduct(product)){
+            System.out.println("Product created");
+        }else{
+            System.out.println("Product could not be created");
+        }
+    }
+
+    private static void displayAllProducts(){
+        delimiter();
+        System.out.println("Display all products");
+        delimiter();
+        List<Product> products = productService.getAllProducts();
+        products.forEach(System.out::println);
+    }
+
+    private static void updateProduct(){
+        delimiter();
+        System.out.println("Update product");
+        delimiter();
+        int productId = inputValidIntField("Enter product id: ", "Product id must be a positive integer", Validator::isValidPositiveNumber);
+        Product existingProduct = productService.getProductById(productId);
+        if(existingProduct == null){
+            System.out.println("Product could not be found");
+            return;
+        }
+        String productName = inputValidStringField("Enter product name: ", "Product name cannot be blank", Validator::isNotBlank);
+        double listPrice = inputValidDoubleField("Enter list price: ", "List price must) be a positive number", Validator::isValidPositiveNumber);
+        existingProduct.setProductName(productName);
+        existingProduct.setListPrice(listPrice);
+        if(productService.updateProduct(existingProduct)){
+            System.out.println("Product updated");
+        }else {
+            System.out.println("Product could not be updated");
+        }
+    }
+
+    private static void deleteProduct(){
+        delimiter();
+        System.out.println("Delete a product");
+        delimiter();
+        int productId = inputValidIntField("Enter product id: ", "Product id must be a positive integer", Validator::isValidPositiveNumber);
+        if(productService.deleteProduct(productId)){
+            System.out.println("Product with id " + productId + " deleted");
+        }else {
+            System.out.println("Product with id " + productId + " could not be deleted");
         }
     }
 

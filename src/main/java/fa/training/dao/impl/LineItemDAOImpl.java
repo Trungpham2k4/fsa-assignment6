@@ -19,6 +19,7 @@ public class LineItemDAOImpl implements LineItemDAO {
                 """;
         try(Connection connection = ConnectionManager.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, orderId);
             ResultSet resultSet = preparedStatement.executeQuery();
             List<LineItem> lineItems = new ArrayList<>();
             while (resultSet.next()) {

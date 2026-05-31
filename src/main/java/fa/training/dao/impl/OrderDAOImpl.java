@@ -32,6 +32,7 @@ public class OrderDAOImpl implements OrderDAO {
                 order.setEmployeeId(resultSet.getInt("employee_id"));
                 orders.add(order);
             }
+            return orders;
         }catch (Exception e) {
             e.printStackTrace();
         }

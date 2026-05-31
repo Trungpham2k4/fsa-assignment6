@@ -14,7 +14,7 @@ public class ProductService {
     public boolean addProduct(Product product) {
         return productDAO.save(product);
     }
-    public Product getProduct(int id) {
+    public Product getProductById(int id) {
         return productDAO.findById(id);
     }
     public boolean updateProduct(Product product) {

@@ -20,8 +20,8 @@ public class CustomerDAOImpl implements CustomerDAO {
         try(Connection connection = ConnectionManager.getConnection();
             CallableStatement callableStatement = connection.prepareCall(sql)) {
             callableStatement.setString(1, customer.getCustomerName());
-            int rowsAffected = callableStatement.executeUpdate();
-            return rowsAffected > 0;
+            callableStatement.executeUpdate();
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -37,8 +37,8 @@ public class CustomerDAOImpl implements CustomerDAO {
             CallableStatement callableStatement = connection.prepareCall(sql)) {
             callableStatement.setInt(1, customer.getCustomerId());
             callableStatement.setString(2, customer.getCustomerName());
-            int rowsAffected = callableStatement.executeUpdate();
-            return rowsAffected > 0;
+            callableStatement.executeUpdate();
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -53,8 +53,8 @@ public class CustomerDAOImpl implements CustomerDAO {
         try(Connection connection = ConnectionManager.getConnection();
             CallableStatement callableStatement = connection.prepareCall(sql)) {
             callableStatement.setInt(1, customerId);
-            int rowsAffected = callableStatement.executeUpdate();
-            return rowsAffected > 0;
+            callableStatement.executeUpdate();
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
         }
